@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.parcel-cache/
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.local
+.claude/

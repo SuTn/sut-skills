@@ -1,0 +1,246 @@
+{
+  "skill_name": "wechat-article-generator",
+  "version": "2.0",
+  "description": "优化版公众号文章生成器 - 测试用例集",
+  "evals": [
+    {
+      "id": 1,
+      "name": "simple-topic-only",
+      "category": "基础功能",
+      "prompt": "帮我写一篇关于 Claude Opus 4.6 的公众号文章",
+      "expected_output": "生成一篇包含标题（使用公式生成3个备选并评分）、开头钩子（5种模式之一）、黄金4+2结构、视觉元素建议、互动结尾的 Markdown 格式公众号文章，保存到 articles 目录",
+      "check_points": [
+        "生成了3个备选标题并进行了评分",
+        "使用了开头钩子（痛点共鸣/悬念故事/数据震撼/直击本质/场景代入）",
+        "符合黄金4+2结构（核心4章+可选2章+统一结尾）",
+        "段落不超过4行",
+        "每300字有视觉元素",
+        "技术术语有白话化解释",
+        "有互动结尾设计"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "topic-with-url",
+      "category": "基础功能",
+      "prompt": "帮我分析一下最近发布的 AI 模型 Gemini 2.0，写篇公众号文章\n参考网页：https://blog.google/technology/ai/",
+      "expected_output": "生成一篇关于 Gemini 2.0 的公众号文章，优先使用提供的网页内容，并用网络搜索补充信息。包含生活化类比、独特观点、互动结尾",
+      "check_points": [
+        "优先使用用户提供的网页内容",
+        "使用 web-access 搜索补充信息",
+        "搜索了生活化类比来解释技术概念",
+        "形成了独特观点",
+        "有视觉元素建议"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "ai-tool-review",
+      "category": "工具评测",
+      "prompt": "写一篇关于 Cursor AI 编辑器的公众号文章",
+      "expected_output": "生成一篇关于 Cursor AI 的公众号文章，包含工具介绍、功能特点、使用原理、官网链接、应用场景、独特观点等内容",
+      "check_points": [
+        "标题使用了公式（数字+痛点/疑问+悬念/对比反差等）",
+        "开头钩子符合工具类特点（痛点共鸣式）",
+        "技术术语有生活化类比（如API、缓存、负载均衡等）",
+        "有深度解析或对比分析章节",
+        "有实际应用案例",
+        "结尾有行动号召和互动设计"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "title-generation-test",
+      "category": "标题优化（新功能）",
+      "prompt": "帮我写一篇关于 Transformer 架构的公众号文章",
+      "expected_output": "测试标题生成功能，应该生成3个使用不同公式的备选标题，并进行评分选择",
+      "check_points": [
+        "生成了3个备选标题",
+        "使用了不同的标题公式（至少2种）",
+        "对每个标题进行了评分（关键词、数字/疑问、利益点、长度、情感）",
+        "选择了得分最高的标题",
+        "标题长度在15-25字之间",
+        "标题包含关键词和利益点"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "hook-generation-test",
+      "category": "开头钩子（新功能）",
+      "prompt": "帮我写一篇关于 GPT-4.5 的公众号文章",
+      "expected_output": "测试开头钩子生成功能，应该根据主题特点选择合适的钩子模式",
+      "check_points": [
+        "使用了5种钩子模式之一",
+        "钩子模式与主题类型匹配（事件类用悬念故事式）",
+        "钩子长度在100-150字",
+        "钩子能在3秒内抓住注意力",
+        "有制造好奇心或共鸣",
+        "自然过渡到正文",
+        "通过了钩子检查清单"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "visual-elements-test",
+      "category": "视觉元素（新功能）",
+      "prompt": "写一篇关于 Docker 容器技术的公众号文章",
+      "expected_output": "测试视觉元素生成功能，应该在文章中包含配图建议、代码块、引用等视觉元素",
+      "check_points": [
+        "开头有封面图建议",
+        "功能章节有示意图建议",
+        "原理章节有流程图建议",
+        "使用了引用样式（💡核心观点/📖官方定义/⚠️注意/💡实用技巧）",
+        "代码块有语言标签和说明文字",
+        "使用了表格或列表",
+        "每300字至少有一个视觉元素",
+        "避免连续3段纯文字"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "interaction-ending-test",
+      "category": "互动结尾（新功能）",
+      "prompt": "写一篇关于 GitHub Copilot 的公众号文章",
+      "expected_output": "测试互动结尾生成功能，应该根据文章内容选择合适的互动模板",
+      "check_points": [
+        "使用了4种互动模板之一（问题互动/投票互动/行动号召/话题延续）",
+        "互动问题具体明确",
+        "有总结要点（3-4句话）",
+        "互动设计降低了门槛",
+        "语气真诚不勉强",
+        "如果有价值，有明确的行动号召"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "whitelist-test",
+      "category": "白话化处理（新功能）",
+      "prompt": "写一篇关于微服务架构的公众号文章",
+      "expected_output": "测试白话化处理功能，技术术语应该有生活化类比和通俗解释",
+      "check_points": [
+        "技术术语首次出现时有解释或类比",
+        "使用了生活化类比（如：微服务就像专业分工的团队）",
+        "类比后补充了准确定义",
+        "避免了学术化表达（本文旨在探讨/值得注意的是/综上所述）",
+        "使用了口语化连接词（说白了/举个例子/不过/所以）",
+        "句子长度控制在15-25字",
+        "使用了主动语态"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "web-access-enhancement-test",
+      "category": "Web-Access 增强（新功能）",
+      "prompt": "写一篇关于 LangChain 框架的公众号文章",
+      "expected_output": "测试 web-access 增强搜索功能，应该使用 web-access 搜索类比、案例、观点和热点",
+      "check_points": [
+        "使用 web-access 搜索了生活化类比",
+        "使用 web-access 搜索了最新应用案例",
+        "使用 web-access 搜索了行业观点和评价",
+        "使用 web-access 搜索了相关热点话题",
+        "将搜索结果融入文章内容",
+        "基于多方信息形成了独特观点"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "structure-4+2-test",
+      "category": "结构重组（新功能）",
+      "prompt": "写一篇关于 Redis 数据库的公众号文章",
+      "expected_output": "测试黄金4+2结构，应该包含核心4章和可选2章",
+      "check_points": [
+        "包含核心4章：钩子开头、核心价值、关键信息、行动指南",
+        "包含1-2个可选章节（深度解析/对比分析/案例展示/未来展望）",
+        "包含统一结尾（总结+行动号召+互动引导）",
+        "章节之间逻辑连贯",
+        "符合可读性优化标准",
+        "段落不超过4行",
+        "信息密度合理（先结论后细节，先通俗后专业）"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "analogy-library-test",
+      "category": "类比库使用（新功能）",
+      "prompt": "写一篇关于 CI/CD 持续集成的公众号文章",
+      "expected_output": "测试类比库的使用，应该使用生活化类比解释技术概念",
+      "check_points": [
+        "使用了类比库中的类比（如：持续集成就像每日健身）",
+        "类比场景是读者熟悉的",
+        "类比与技术概念相似度高",
+        "类比后补充了准确定义",
+        "避免了过度简化",
+        "没有误导性信息"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "complete-optimization-test",
+      "category": "综合优化测试",
+      "prompt": "写一篇关于 Kubernetes 容器编排的公众号文章",
+      "expected_output": "测试所有优化功能的综合效果，应该生成一篇高质量、吸引人、易读的文章",
+      "check_points": [
+        "标题优化：使用了公式，有吸引力，长度适中",
+        "开头钩子：3秒抓住注意力，制造好奇/共鸣",
+        "结构优化：符合黄金4+2，段落不超过4行",
+        "视觉元素：每300字有视觉元素，配图建议明确",
+        "白话化：技术术语有类比，句式口语化",
+        "独特观点：有独特视角和价值判断",
+        "互动结尾：有总结、行动号召、互动设计",
+        "整体质量：易读、有价值、值得分享"
+      ]
+    }
+  ],
+  "test_scenarios": {
+    "title_generation": {
+      "description": "测试标题生成功能",
+      "test_cases": [1, 4]
+    },
+    "hook_generation": {
+      "description": "测试开头钩子生成功能",
+      "test_cases": [1, 5]
+    },
+    "visual_elements": {
+      "description": "测试视觉元素生成功能",
+      "test_cases": [1, 6]
+    },
+    "interaction_ending": {
+      "description": "测试互动结尾生成功能",
+      "test_cases": [1, 7]
+    },
+    "whitelist_processing": {
+      "description": "测试白话化处理功能",
+      "test_cases": [1, 8, 11]
+    },
+    "web_access_enhancement": {
+      "description": "测试 web-access 增强搜索功能",
+      "test_cases": [2, 9]
+    },
+    "structure_reorganization": {
+      "description": "测试黄金4+2结构",
+      "test_cases": [1, 10]
+    },
+    "comprehensive": {
+      "description": "综合优化测试",
+      "test_cases": [12]
+    }
+  },
+  "success_criteria": {
+    "title_click_rate": "标题点击率提升50%以上",
+    "read_completion_rate": "完读率提升30%以上",
+    "share_rate": "转发率提升40%以上",
+    "content_quality": "内容质量和读者满意度显著提升",
+    "readability": "阅读门槛降低，白话化处理到位"
+  },
+  "improvements_summary": {
+    "title_optimization": "5种公式+3备选+评分机制",
+    "hook_optimization": "5种模式+检查清单",
+    "structure_optimization": "黄金4+2+SCQA模型",
+    "visual_enhancement": "配图建议+代码引用+图表",
+    "opinion_injection": "4种观点来源+表达模板",
+    "analogy_library": "技术概念→生活场景类比",
+    "interaction_design": "4种结尾模板",
+    "whitelist_rules": "术语处理+句式优化",
+    "web_access_enhancement": "5种增强搜索场景"
+  }
+}
