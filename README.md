@@ -2,6 +2,8 @@
 
 Claude Code 私人 Skill 合集，包含自建 Skill 和收集的优质社区 Skill。
 
+**在线浏览**：[https://sutn.github.io/sut-skills/](https://sutn.github.io/sut-skills/)
+
 ## 自建 Skills
 
 | Skill | 说明 |
