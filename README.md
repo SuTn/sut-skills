@@ -16,6 +16,10 @@ Claude Code 私人 Skill 合集，包含自建 Skill 和收集的优质社区 Sk
 | Skill | 说明 | 来源 |
 |-------|------|------|
 | [web-access](https://github.com/eze-is/web-access) | 联网操作工具，支持搜索、网页抓取、登录后操作、社交媒体内容抓取、动态渲染页面读取等 | [eze-is/web-access](https://github.com/eze-is/web-access) |
+| [weread-skills](https://weread.qq.com/r/weread-skills) | 微信读书助手 — 搜索书籍、管理书架、查看笔记划线、浏览书评、阅读统计、发现推荐好书 | [微信读书](https://weread.qq.com/r/weread-skills) |
+| [SoftwareCopyright-Skill](https://github.com/Fokkyp/SoftwareCopyright-Skill) | 软著编写助手 — 自动生成软件著作权申请材料，包括说明书文档和源代码文档 | [Fokkyp/SoftwareCopyright-Skill](https://github.com/Fokkyp/SoftwareCopyright-Skill) |
+| [lark-cli](https://github.com/larksuite/cli) | 飞书官方 CLI 工具 — 24 个 AI Agent Skills，覆盖消息、文档、多维表格、日历、邮箱、任务等 17 大业务域，200+ 命令 | [larksuite/cli](https://github.com/larksuite/cli) |
+| [guizang-ppt-skill](https://github.com/op7418/guizang-ppt-skill) | 网页 PPT / 配图 / 封面生成 — 双视觉系统（电子杂志风 + 瑞士国际主义），单文件 HTML 横向翻页，支持多平台封面 | [op7418/guizang-ppt-skill](https://github.com/op7418/guizang-ppt-skill) |
 
 ## 使用方式
 
