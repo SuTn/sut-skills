@@ -640,18 +640,38 @@
     </footer>
 
     <script>
-        const REPO = { owner: 'SuTn', name: 'sut-skills' };
-        const API_BASE = `https://api.github.com/repos/${REPO.owner}/${REPO.name}`;
+        const REPO_URL = 'https://github.com/SuTn/sut-skills';
 
-        // Collected (external) skills — update manually when adding new ones
-        const COLLECTED_SKILLS = [
+        // All skills — update manually when adding new ones
+        const ALL_SKILLS = [
+            // Self-built
+            {
+                name: 'sut-doubao-image',
+                title: 'Doubao Image',
+                description: '使用豆包 AI 生成图片，支持文生图、比例设置、批量下载',
+                tags: ['图片生成', '豆包', 'AI 绘图'],
+                url: `${REPO_URL}/tree/main/sut-doubao-image`,
+                source: 'SuTn/sut-skills',
+                category: 'self-built'
+            },
+            {
+                name: 'sut-wechat-article-generator',
+                title: 'Wechat Article Generator',
+                description: '微信公众号文章生成器，根据主题自动搜索、撰写、优化爆款文章',
+                tags: ['公众号', '内容创作', '写作'],
+                url: `${REPO_URL}/tree/main/sut-wechat-article-generator`,
+                source: 'SuTn/sut-skills',
+                category: 'self-built'
+            },
+            // Collected
             {
                 name: 'web-access',
                 title: 'Web Access',
                 description: '联网操作工具，支持搜索、网页抓取、登录后操作、社交媒体内容抓取、动态渲染页面读取等全场景网络交互',
                 tags: ['联网', '搜索', '网页抓取', '浏览器'],
                 url: 'https://github.com/eze-is/web-access',
-                source: 'eze-is/web-access'
+                source: 'eze-is/web-access',
+                category: 'collected'
             },
             {
                 name: 'weread-skills',
@@ -659,7 +679,8 @@
                 description: '微信读书助手 — 搜索书籍、管理书架、查看笔记划线、浏览书评、阅读统计、发现推荐好书',
                 tags: ['微信读书', '书籍', '阅读', '笔记'],
                 url: 'https://weread.qq.com/r/weread-skills',
-                source: '微信读书'
+                source: '微信读书',
+                category: 'collected'
             },
             {
                 name: 'software-copyright-skill',
@@ -667,7 +688,8 @@
                 description: '软著编写助手 — 自动生成软件著作权申请材料，包括说明书文档和源代码文档',
                 tags: ['软著', '文档生成', '法律', '版权'],
                 url: 'https://github.com/Fokkyp/SoftwareCopyright-Skill',
-                source: 'Fokkyp/SoftwareCopyright-Skill'
+                source: 'Fokkyp/SoftwareCopyright-Skill',
+                category: 'collected'
             },
             {
                 name: 'lark-cli',
@@ -675,7 +697,8 @@
                 description: '飞书官方 CLI 工具 — 24 个 AI Agent Skills，覆盖消息、文档、多维表格、日历、邮箱、任务等 17 大业务域，200+ 命令',
                 tags: ['飞书', '办公', '文档', '多维表格'],
                 url: 'https://github.com/larksuite/cli',
-                source: 'larksuite/cli'
+                source: 'larksuite/cli',
+                category: 'collected'
             },
             {
                 name: 'guizang-ppt-skill',
@@ -683,111 +706,17 @@
                 description: '网页 PPT / 配图 / 封面生成 — 双视觉系统（电子杂志风 + 瑞士国际主义），单文件 HTML 横向翻页，支持多平台封面',
                 tags: ['PPT', 'HTML', '配图', '封面'],
                 url: 'https://github.com/op7418/guizang-ppt-skill',
-                source: 'op7418/guizang-ppt-skill'
+                source: 'op7418/guizang-ppt-skill',
+                category: 'collected'
             }
         ];
 
-        // Tag derivation from description keywords
-        function deriveTags(description, name) {
-            const keywordMap = [
-                ['图片', '图片生成'], ['画图', 'AI 绘图'], ['图像', '图像生成'],
-                ['公众号', '公众号'], ['文章', '内容创作'], ['写作', '写作'],
-                ['联网', '网络工具'], ['搜索', '搜索'], ['网页', '网页抓取'],
-                ['视频', '视频处理'], ['音频', '音频处理'], ['翻译', '翻译'],
-                ['邮件', '邮件'], ['文档', '文档处理'], ['数据', '数据分析'],
-            ];
-            const text = (description + ' ' + name).toLowerCase();
-            const tags = [];
-            for (const [kw, tag] of keywordMap) {
-                if (text.includes(kw) && !tags.includes(tag)) tags.push(tag);
-            }
-            if (tags.length === 0) tags.push('工具');
-            return tags.slice(0, 4);
-        }
-
-        // Format skill name for display
-        function formatTitle(name) {
-            return name
-                .replace(/^sut-/, '')
-                .split('-')
-                .map(w => w.charAt(0).toUpperCase() + w.slice(1))
-                .join(' ');
-        }
-
-        // Decode base64 content (UTF-8 safe)
-        function decodeContent(base64) {
-            const binary = atob(base64.replace(/\n/g, ''));
-            const bytes = new Uint8Array(binary.length);
-            for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-            return new TextDecoder('utf-8').decode(bytes);
-        }
-
-        // Parse YAML-like frontmatter
-        function parseFrontmatter(content) {
-            const match = content.match(/^---\s*\r?\n([\s\S]*?)\r?\n---/);
-            if (!match) return {};
-            const meta = {};
-            match[1].split(/\r?\n/).forEach(line => {
-                const idx = line.indexOf(':');
-                if (idx > 0) {
-                    meta[line.slice(0, idx).trim()] = line.slice(idx + 1).trim();
-                }
-            });
-            return meta;
-        }
-
-        // Fetch JSON from GitHub API
-        async function ghFetch(path) {
-            const res = await fetch(`${API_BASE}${path}`);
-            if (!res.ok) throw new Error(`GitHub API ${res.status}: ${res.statusText}`);
-            return res.json();
-        }
-
-        // Load self-built skills dynamically
-        async function loadSelfBuiltSkills() {
-            const contents = await ghFetch('/contents/');
-            const dirs = contents.filter(c =>
-                c.type === 'dir' && c.name.startsWith('sut-')
-            );
-
-            const skills = [];
-            await Promise.all(dirs.map(async (dir) => {
-                try {
-                    const file = await ghFetch(`/contents/${dir.name}/SKILL.md`);
-                    const text = decodeContent(file.content);
-                    const meta = parseFrontmatter(text);
-
-                    // Extract first paragraph after frontmatter as extended description
-                    const body = text.replace(/^---[\s\S]*?---\s*/, '');
-                    const firstLine = body.split('\n').find(l => l.trim().length > 0 && !l.startsWith('#')) || '';
-
-                    skills.push({
-                        name: meta.name || dir.name,
-                        title: formatTitle(meta.name || dir.name),
-                        description: meta.description
-                            ? meta.description.length > 120
-                                ? meta.description.slice(0, 120) + '...'
-                                : meta.description
-                            : firstLine.replace(/^#*\s*/, '').trim().slice(0, 120),
-                        tags: deriveTags(meta.description || '', dir.name),
-                        url: `https://github.com/${REPO.owner}/${REPO.name}/tree/main/${dir.name}`,
-                        source: `${REPO.owner}/${REPO.name}`,
-                        category: 'self-built'
-                    });
-                } catch (e) {
-                    // SKILL.md not found or parse error — skip gracefully
-                    console.warn(`Skip ${dir.name}:`, e.message);
-                }
-            }));
-            return skills;
-        }
-
         // Render cards
-        function renderCards(allSkills, filter) {
+        function renderCards(filter) {
             const grid = document.getElementById('skills-grid');
             const filtered = filter === 'all'
-                ? allSkills
-                : allSkills.filter(s => s.category === filter);
+                ? ALL_SKILLS
+                : ALL_SKILLS.filter(s => s.category === filter);
 
             if (filtered.length === 0) {
                 grid.innerHTML = '<div class="empty-state">该分类暂无 Skill</div>';
@@ -823,48 +752,24 @@
         }
 
         // Update stat counters
-        function updateStats(allSkills) {
-            const self = allSkills.filter(s => s.category === 'self-built').length;
-            const collected = allSkills.filter(s => s.category === 'collected').length;
-            document.getElementById('total-count').textContent = allSkills.length;
+        function updateStats() {
+            const self = ALL_SKILLS.filter(s => s.category === 'self-built').length;
+            const collected = ALL_SKILLS.filter(s => s.category === 'collected').length;
+            document.getElementById('total-count').textContent = ALL_SKILLS.length;
             document.getElementById('self-count').textContent = self;
             document.getElementById('collected-count').textContent = collected;
         }
 
         // Init
-        async function init() {
-            const grid = document.getElementById('skills-grid');
-            let allSkills = [];
+        function init() {
+            updateStats();
+            renderCards('all');
 
-            try {
-                // Load self-built skills via GitHub API
-                const selfBuilt = await loadSelfBuiltSkills();
-
-                // Merge with collected skills
-                allSkills = [
-                    ...selfBuilt.map(s => ({ ...s, category: 'self-built' })),
-                    ...COLLECTED_SKILLS.map(s => ({ ...s, category: 'collected' }))
-                ];
-
-                updateStats(allSkills);
-                renderCards(allSkills, 'all');
-            } catch (err) {
-                console.error('Failed to load skills:', err);
-                grid.innerHTML = `
-                    <div class="error-state">
-                        <div class="error-icon">&#9888;</div>
-                        <p class="error-msg">加载失败：${err.message}</p>
-                        <button class="retry-btn" onclick="location.reload()">重试</button>
-                    </div>
-                `;
-            }
-
-            // Filter buttons
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    renderCards(allSkills, btn.dataset.filter);
+                    renderCards(btn.dataset.filter);
                 });
             });
         }
